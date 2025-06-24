@@ -1,0 +1,95 @@
+This project demonstrates a simple Bluetooth-based home automation system using an Arduino Uno, HC-05 Bluetooth module, and LED to simulate appliance control. It is designed, tested, and simulated using Proteus, with control functionality built through a custom Android app developed in MIT App Inventor.
+
+Project Overview:
+The system enables wireless control of home appliances via a smartphone over Bluetooth. When connected to the HC-05 module, the mobile app can send ON/OFF commands to the Arduino, which then activates or deactivates the connected device (represented by an LED in simulation).
+
+This kind of system is useful for beginners learning embedded systems, IoT, and mobile integration with microcontrollers.
+
+Components Used:
+Arduino Uno
+
+HC-05 Bluetooth Module
+
+LED (Green)
+
+220Ω Resistor
+
+MIT App Inventor (for Android app)
+
+Proteus 8/ISIS (for circuit simulation)
+
+Android Smartphone (for testing the app)
+
+Working Principle:
+The HC-05 Bluetooth module is interfaced with Arduino's serial pins (TX/RX).
+
+The user connects to the HC-05 from their mobile phone using the custom app.
+
+The app has simple ON/OFF buttons, which send serial characters (like 1 or 0) to the Arduino.
+
+Arduino reads the Bluetooth input and turns the LED ON or OFF accordingly.
+
+LED represents a controllable appliance (e.g., fan, light).
+
+Simulation Details:
+The Proteus schematic includes:
+
+Arduino UNO connected to HC-05
+
+LED connected to digital pin D13 through a 220Ω resistor
+
+HC-05 connections:
+
+VCC → 5V on Arduino
+
+GND → GND
+
+TX → RX of Arduino (pin 0)
+
+RX → TX of Arduino (pin 1)
+
+
+
+Android App (MIT App Inventor):
+
+Developed using MIT App Inventor
+
+Features:
+
+Connect/Disconnect Bluetooth
+
+ON/OFF buttons to control appliances
+
+App sends characters 1 and 0 over serial Bluetooth
+
+The .aia file and APK are available in the /app directory.
+
+Arduino code:
+// Program for Bluetooth Controlled LED
+
+String text;
+
+void setup() {
+  pinMode(13, OUTPUT);
+  Serial.begin(9600);
+}
+
+void loop() {
+  while (Serial.available()) {
+    delay(10);
+    char c = Serial.read();
+    text += c;
+  }
+
+  if (text.length() > 0) {
+    Serial.println(text);
+    
+    if (text == "on") {
+      digitalWrite(13, HIGH);
+    }
+    if (text == "off") {
+      digitalWrite(13, LOW);
+    }
+
+    text = "";
+  }}
